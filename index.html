@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>A little message for you 💌</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+/* ============ EDIT THESE ============ */
+/* (settings are in the <script> at the bottom) */
+
+:root {
+  --bg: #EEF5EC;
+  --bg-2: #FFF2CC;
+  --ink: #243B38;
+  --soft: #56706B;
+  --marigold: #F4C542;
+  --rose: #2F9E8F;
+  --card: #FFFFFF;
+  --line: #CFE3CB;
+  box-sizing: border-box;
+  padding-top: env(safe-area-inset-top, 0px);
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #17292A; --bg-2: #2A2A1C; --ink: #EEF6F2; --soft: #A9C7C0;
+    --card: #20383A; --line: #35524F; --rose: #6FD1C2;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #17292A; --bg-2: #2A2A1C; --ink: #EEF6F2; --soft: #A9C7C0;
+  --card: #20383A; --line: #35524F; --rose: #6FD1C2;
+}
+html { scroll-padding-top: env(safe-area-inset-top, 0px); height: 100%; }
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0; min-height: 100%;
+  font-family: "Baloo 2", "Segoe UI", system-ui, sans-serif;
+  color: var(--ink);
+  background: linear-gradient(170deg, var(--bg) 0%, var(--bg) 55%, var(--bg-2) 100%);
+  background-color: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+  overflow-x: hidden;
+}
+main { width: 100%; max-width: 34rem; padding: 2rem 1.5rem; text-align: center; }
+
+.beat {
+  width: 5.5rem; height: 5.5rem; margin: 0 auto 1.75rem;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #FFF3B0, #F4C542 55%, #7CC6A4);
+  box-shadow: 0 0 0 0 rgba(244,197,66,.5);
+  animation: beat 1.4s ease-in-out infinite;
+}
+@keyframes beat {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(244,197,66,.45); }
+  15% { transform: scale(1.08); }
+  30% { transform: scale(.98); }
+  45% { transform: scale(1.05); box-shadow: 0 0 0 1.4rem rgba(244,197,66,0); }
+}
+
+h1 { font-size: clamp(1.9rem, 7vw, 2.6rem); line-height: 1.1; font-weight: 800; margin: 0 0 .5rem; }
+p.lead { font-size: 1.15rem; color: var(--soft); margin: 0 0 1.75rem; line-height: 1.5; }
+
+.field { display: flex; flex-direction: column; gap: .75rem; }
+input {
+  font: inherit; font-size: 1.25rem; text-align: center;
+  padding: .85rem 1rem; border-radius: 1rem;
+  border: 2px solid var(--line); background: var(--card); color: var(--ink);
+  outline: none;
+}
+input:focus-visible { border-color: var(--rose); }
+button {
+  font: inherit; font-weight: 700; font-size: 1.15rem;
+  padding: .85rem 1.25rem; border-radius: 999px; border: none; cursor: pointer;
+  background: var(--ink); color: var(--bg);
+}
+button:focus-visible, .chip:focus-visible { outline: 3px solid var(--marigold); outline-offset: 3px; }
+.hint { color: var(--rose); min-height: 1.5rem; margin: .25rem 0 0; font-size: 1rem; }
+
+.chips { display: grid; grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr)); gap: .6rem; }
+.chip {
+  font: inherit; font-size: 1.05rem; font-weight: 500;
+  padding: .7rem .5rem; border-radius: 1rem;
+  background: var(--card); color: var(--ink); border: 2px solid var(--line); cursor: pointer;
+}
+.chip:hover { border-color: var(--marigold); }
+
+.hello {
+  font-size: clamp(2.6rem, 12vw, 4.2rem); font-weight: 800; line-height: 1;
+  margin: 0 0 1.25rem; letter-spacing: -.01em;
+}
+.hello span { display: block; color: var(--rose); }
+.msg { font-size: 1.3rem; line-height: 1.55; margin: 0 0 1.5rem; }
+.date {
+  display: inline-block; font-size: 1.6rem; font-weight: 700;
+  padding: .4rem 1.25rem; border-radius: 999px;
+  background: var(--marigold); color: #2E2A5A; margin-bottom: 1.5rem;
+}
+.sign { color: var(--soft); font-size: 1.1rem; margin: 0 0 2rem; }
+.guess { margin: 0 0 1.5rem; }
+.gq { font-size: 1.15rem; font-weight: 700; margin: 0 0 .75rem; }
+.gb { display: flex; gap: .75rem; justify-content: center; }
+.gb .chip { min-width: 8rem; }
+.ga { min-height: 1.6rem; margin: .9rem 0 0; color: var(--soft); font-size: 1.1rem; }
+.again { background: none; color: var(--soft); font-weight: 500; font-size: 1rem; text-decoration: underline; padding: .5rem; }
+
+[hidden] { display: none !important; }
+.step { animation: rise .5s ease-out both; }
+@keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+
+.confetti { position: fixed; inset: 0; pointer-events: none; overflow: hidden; }
+.confetti i {
+  position: absolute; top: -2rem; width: .6rem; height: .9rem; border-radius: 2px;
+  animation: fall linear forwards;
+}
+@keyframes fall { to { transform: translateY(110vh) rotate(720deg); opacity: .9; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .beat, .step { animation: none; }
+  .confetti { display: none; }
+}
+</style>
+</head>
+<body>
+<main>
+  <div class="beat" aria-hidden="true"></div>
+
+  <!-- Step 1: name -->
+  <section id="s1" class="step">
+    <h1>Someone tiny has a message for you</h1>
+    <p class="lead">Type your name to open it.</p>
+    <form class="field" id="nameForm" novalidate>
+      <label for="name" style="position:absolute;left:-9999px">Your name</label>
+      <input id="name" autocomplete="given-name" placeholder="Your name" maxlength="40">
+      <button type="submit">Open my message</button>
+      <p class="hint" id="hint" role="alert"></p>
+    </form>
+  </section>
+
+  <!-- Step 2: relation (only if name isn't in the list) -->
+  <section id="s2" class="step" hidden>
+    <h1 id="s2title">Hi!</h1>
+    <p class="lead">One quick thing. What will I call you?</p>
+    <div class="chips" id="chips"></div>
+  </section>
+
+  <!-- Step 3: reveal -->
+  <section id="s3" class="step" hidden aria-live="polite">
+    <p class="hello" id="hello"></p>
+    <p class="msg" id="msg"></p>
+    <div class="date" id="date"></div>
+    <p class="sign" id="sign"></p>
+    <button class="again" id="again" type="button">Open as someone else</button>
+  </section>
+</main>
+<div class="confetti" id="confetti" aria-hidden="true"></div>
+
+<script>
+/* ===================== EDIT THESE ===================== */
+const ARRIVING = "2027";                     // e.g. "March 2027"
+const SIGNED   = "— Baby, currently growing 🤍";
+
+// Known people: typed name (lowercase) -> [what baby calls them, which message #].
+// Spellings of the same person share a number so they get the same message.
+// Anyone not listed picks from the buttons instead.
+const PEOPLE = {
+  // Kaka
+  "sahil": ["Kaka", 0],
+  "jeegar": ["Kaka", 1], "jigar": ["Kaka", 1],
+  "maulik": ["Kaka", 2],
+  // Kaki
+  "disha": ["Kaki", 0],
+  "vidhi": ["Kaki", 1],
+  "jigna": ["Kaki", 2],
+  "tanu": ["Kaki", 3], "tanushri": ["Kaki", 3],
+  // Mota Papa
+  "fenil": ["Mota Papa", 0],
+  "jimmy": ["Mota Papa", 1],
+  "ripal": ["Mota Papa", 2],
+  // Moti Mummy
+  "bina": ["Moti Mummy", 0],
+  "lucky": ["Moti Mummy", 1],
+  "bansri": ["Moti Mummy", 2], "banshri": ["Moti Mummy", 2],
+  // Mama
+  "anuj": ["Mama", 0],
+  "dhruvish": ["Mama", 1],
+  "shaival": ["Mama", 2],
+  // Mami
+  "krinal": ["Mami", 0],
+  // Masi
+  "krupa": ["Masi", 0],
+  "aanal": ["Masi", 1], "anal": ["Masi", 1],
+  "kruti": ["Masi", 2],
+  // Masa
+  "dhaval": ["Masa", 0],
+  "harsh": ["Masa", 1],
+  // Nana
+  "narendra": ["Nana", 0], "narendrakumar": ["Nana", 0],
+  // Nani
+  "chhaya": ["Nani", 0], "chhayaben": ["Nani", 0], "chaya": ["Nani", 0], "chayaben": ["Nani", 0],
+  "rita": ["Nani", 1], "ritaben": ["Nani", 1],
+  // Dadi
+  "gita": ["Dadi", 0], "gitaben": ["Dadi", 0], "geeta": ["Dadi", 0], "geetaben": ["Dadi", 0],
+  "hina": ["Dadi", 1], "heena": ["Dadi", 1], "hinaben": ["Dadi", 1], "heenaben": ["Dadi", 1],
+  // Dada
+  "dilip": ["Dada", 0], "dilipkumar": ["Dada", 0], "dilipbhai": ["Dada", 0],
+  "ghanshyam": ["Dada", 1], "ghanshyambhai": ["Dada", 1],
+};
+
+// Several messages per relation, so people with the same relation each get a different one.
+const MESSAGES = {
+  Dada: [
+    `You've just been promoted to grandpa! I hear your lap is the comfiest seat in the house, so please save it for me.`,
+    `Guess who's going to be a Dada? You! Get ready for morning walks with a very small, very slow partner.`,
+    `A new little one is joining the family, and I've already picked you as my favourite storyteller.`,
+  ],
+  Dadi: [
+    `You've just been promoted to grandma! Keep your best stories and your best recipes ready. I'm coming for both.`,
+    `Guess who's going to be a Dadi? You! I'll need lullabies, head massages, and a lot of spoiling.`,
+    `A tiny new member is joining the family, and I already know your hugs will be my favourite place.`,
+  ],
+  Nana: [
+    `You're going to be a grandpa! I'm told you give the best rides on your shoulders. I'll be checking.`,
+    `Guess who's going to be a Nana? You! I'll need someone to teach me all the good jokes.`,
+  ],
+  Nani: [
+    `You're going to be a grandma! Mummy says nobody spoils kids like you do. I'm counting on it.`,
+    `Guess who's going to be a Nani? You! I've heard Nani's house is where all the fun happens.`,
+    `A tiny new member is on the way, and your kitchen is the first place I want to visit.`,
+  ],
+  Kaka: [
+    `I'm on my way, and I already know you'll be the one teaching me everything Papa says no to.`,
+    `Guess who's getting a brand new job title? Kaka! Please start practising your funny faces.`,
+    `I'm coming soon, and I'm going to need a partner for cricket, cartoons, and mischief. You're hired.`,
+    `A tiny new cousin is on the way, and I've already decided you're the cool Kaka.`,
+  ],
+  Kaki: [
+    `I'm on my way! I've heard you give the best hugs, so please start practising.`,
+    `Guess who's becoming a Kaki? You! I'll need someone to dress me up for every function.`,
+    `I'm coming soon, and I already know you'll be the one who sneaks me extra chocolate.`,
+    `A tiny new family member is on the way, and I've saved a special spot just for you.`,
+  ],
+  "Mota Papa": [
+    `I'm on my way! I hear you're the head of the family, so I'll need your blessings and your best stories.`,
+    `Guess who's getting a new little fan? You, Mota Papa! Get ready to be followed everywhere.`,
+    `A tiny new member is joining the family, and I'm told nobody gives better advice than you.`,
+  ],
+  "Moti Mummy": [
+    `I'm on my way! Everyone says your kitchen is the best place in the house. Save me the first bite.`,
+    `Guess who's getting a new little shadow? You, Moti Mummy! I'll need lots of cuddles.`,
+    `A tiny new member is joining the family, and I already know you'll spoil me the most.`,
+  ],
+  Mama: [
+    `I'm on my way, and I've been told a Mama's house is the most fun place to be. Get it ready!`,
+    `Guess who's going to be a Mama? You! I'll expect piggyback rides and lots of gifts.`,
+    `A tiny new nephew or niece is coming, and I already know you'll be my partner in crime.`,
+    `I'm coming soon, and I've heard Mama always says yes. Let's test that.`,
+  ],
+  Mami: [
+    `I'm on my way! Save me a spot on your lap and a sweet or two.`,
+    `Guess who's going to be a Mami? You! I'll need someone to sing me to sleep.`,
+  ],
+  Masi: [
+    `I'm on my way! Everyone says a Masi is a second mummy, so you've got a new job.`,
+    `Guess who's going to be a Masi? You! I'll need shopping trips and lots of selfies.`,
+    `A tiny new member is on the way, and I already know you'll be the one I run to.`,
+    `I'm coming soon, and I've heard Masi's hugs fix everything. I'll be needing plenty.`,
+  ],
+  Masa: [
+    `I'm on my way! Masi says you're the fun one, so I'll be expecting lots of outings.`,
+    `Guess who's going to be a Masa? You! Please start practising your best airplane rides.`,
+    `A tiny new member is coming, and I'm told you tell the best jokes in the family.`,
+  ],
+  Fai: [
+    `I'm on my way! You get to pick my name, right? No pressure. 😄`,
+    `Guess who's going to be a Fai? You! I'll need someone to spoil me at every function.`,
+  ],
+  Bhai: [
+    `I'm on my way, and you're going to be my big brother! Please share your toys.`,
+    `Guess who's getting a little sibling? You! I'll need a protector and a playmate.`,
+  ],
+  Ben: [
+    `I'm on my way, and you're going to be my big sister! I'll need you to show me everything.`,
+    `Guess who's getting a little sibling? You! I'll need someone to share secrets with.`,
+  ],
+  Friend: [
+    `You're one of my parents' favourite people, so that makes you one of mine too. Can't wait to meet you!`,
+    `Someone new is joining the gang soon, and I've heard you're the best company around.`,
+  ],
+};
+/* ====================================================== */
+
+function pickMessage(rel, idx, name) {
+  const pool = MESSAGES[rel] || MESSAGES.Friend;
+  if (idx === undefined) {
+    // Not on the list: choose one based on the name, so the same person always sees the same message.
+    idx = [...name.toLowerCase()].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
+  }
+  return pool[idx % pool.length];
+}
+
+const RELATIONS = Object.keys(MESSAGES);
+
+const $ = id => document.getElementById(id);
+let currentName = "";
+
+function titleCase(s) {
+  return s.trim().replace(/\s+/g, " ").toLowerCase().replace(/\b\p{L}/gu, c => c.toUpperCase());
+}
+
+$("nameForm").addEventListener("submit", e => {
+  e.preventDefault();
+  let raw = $("name").value.trim().replace(/\s+/g, " ");
+  if (!raw) { $("hint").textContent = "Type your name first, then open the message."; return; }
+  $("hint").textContent = "";
+
+  // If they typed "Sahil Kaka" or "Ramesh Mota Papa", pick up the relation from the end.
+  const words = raw.split(" ");
+  const squash = s => s.toLowerCase().replace(/\s+/g, "");
+  for (let k = Math.min(2, words.length - 1); k >= 1; k--) {
+    const tail = squash(words.slice(-k).join(" "));
+    const typedRel = RELATIONS.find(r => squash(r) === tail);
+    if (typedRel) {
+      const nameWords = words.slice(0, -k);
+      currentName = titleCase(nameWords.join(" "));
+      const k2 = PEOPLE[nameWords.join("").toLowerCase()] || PEOPLE[nameWords[0].toLowerCase()];
+      return reveal(typedRel, k2 && k2[0] === typedRel ? k2[1] : undefined);
+    }
+  }
+
+  currentName = titleCase(raw);
+  const known = PEOPLE[raw.toLowerCase().replace(/\s+/g, "")] || PEOPLE[words[0].toLowerCase()];
+  if (known) return reveal(known[0], known[1]);
+
+  $("s1").hidden = true;
+  $("s2title").textContent = `Hi ${currentName}!`;
+  $("chips").innerHTML = "";
+  RELATIONS.forEach(r => {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "chip";
+    b.textContent = r === "Friend" ? "Family friend" : r;
+    b.addEventListener("click", () => reveal(r));
+    $("chips").appendChild(b);
+  });
+  $("s2").hidden = false;
+});
+
+function reveal(rel, idx) {
+  $("s1").hidden = true; $("s2").hidden = true;
+  const hello = $("hello");
+  hello.textContent = "Hello, ";
+  const who = document.createElement("span");
+  who.textContent = rel === "Friend" ? `${currentName}!` : `${currentName} ${rel}!`;
+  hello.appendChild(who);
+  $("msg").textContent = pickMessage(rel, idx, currentName);
+  $("date").textContent = `See you in ${ARRIVING}`;
+  $("sign").textContent = SIGNED;
+  $("s3").hidden = false;
+  confetti();
+}
+
+
+
+$("again").addEventListener("click", () => {
+  $("s3").hidden = true; $("s1").hidden = false;
+  $("name").value = ""; $("name").focus();
+});
+
+function confetti() {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const box = $("confetti");
+  box.innerHTML = "";
+  const colors = ["#F7A8C4", "#8EC5F5", "#F7A8C4", "#8EC5F5", "#F4C542"];
+  for (let i = 0; i < 60; i++) {
+    const c = document.createElement("i");
+    c.style.left = Math.random() * 100 + "vw";
+    c.style.background = colors[i % colors.length];
+    c.style.animationDuration = 2.5 + Math.random() * 2.5 + "s";
+    c.style.animationDelay = Math.random() * .6 + "s";
+    box.appendChild(c);
+  }
+  setTimeout(() => (box.innerHTML = ""), 6000);
+}
+</script>
+</body>
+</html>
