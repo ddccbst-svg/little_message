@@ -188,6 +188,10 @@ const PEOPLE = {
   "anuj": ["Mama", 0],
   "dhruvish": ["Mama", 1],
   "shaival": ["Mama", 2],
+  "dhruv": ["Mama", 3],
+  "nil": ["Mama", 4],
+  "dipesh": ["Mama", 5],
+  "kirtan": ["Mama", 6],
   // Mami
   "krinal": ["Mami", 0],
   // Masi
@@ -208,9 +212,16 @@ const PEOPLE = {
   // Dadi
   "gita": ["Dadi", 0], "gitaben": ["Dadi", 0], "geeta": ["Dadi", 0], "geetaben": ["Dadi", 0],
   "hina": ["Dadi", 1], "heena": ["Dadi", 1], "hinaben": ["Dadi", 1], "heenaben": ["Dadi", 1],
+  "kunjal": ["Dadi", 2],
+  "binal": ["Dadi", 3],
   // Dada
   "dilip": ["Dada", 0], "dilipkumar": ["Dada", 0], "dilipbhai": ["Dada", 0],
   "ghanshyam": ["Dada", 1], "ghanshyambhai": ["Dada", 1],
+  "raju": ["Dada", 2], "rajesh": ["Dada", 2], "raj": ["Dada", 2],
+  "alpesh": ["Dada", 3],
+  // Great Grand Nana / Nani
+  "gunvant": ["Great Grand Nana", 0], "gunvantbhai": ["Great Grand Nana", 0],
+  "kokila": ["Great Grand Nani", 0],
 };
 
 // Several messages per relation, so people with the same relation each get a different one.
@@ -219,11 +230,13 @@ const MESSAGES = {
     `You've just been promoted to grandpa! I hear your lap is the comfiest seat in the house, so please save it for me.`,
     `Guess who's going to be a Dada? You! Get ready for morning walks with a very small, very slow partner.`,
     `A new little one is joining the family, and I've already picked you as my favourite storyteller.`,
+    `Get ready, Dada! Someone tiny is coming to steal your newspaper time and your heart.`,
   ],
   Dadi: [
     `You've just been promoted to grandma! Keep your best stories and your best recipes ready. I'm coming for both.`,
     `Guess who's going to be a Dadi? You! I'll need lullabies, head massages, and a lot of spoiling.`,
     `A tiny new member is joining the family, and I already know your hugs will be my favourite place.`,
+    `Get ready, Dadi! I'll be needing your blessings, your laddoos, and your warmest cuddles.`,
   ],
   Nana: [
     `You're going to be a grandpa! I'm told you give the best rides on your shoulders. I'll be checking.`,
@@ -261,6 +274,10 @@ const MESSAGES = {
     `Guess who's going to be a Mama? You! I'll expect piggyback rides and lots of gifts.`,
     `A tiny new nephew or niece is coming, and I already know you'll be my partner in crime.`,
     `I'm coming soon, and I've heard Mama always says yes. Let's test that.`,
+    `Get ready, Mama! Someone tiny needs a buddy for ice cream runs.`,
+    `A new little one is on the way, and I'm told you're the most fun person at every family function.`,
+    `Guess who's going to have a brand new fan? You, Mama! I'll be cheering for you soon.`,
+    `I'm coming soon, and I've already saved my first high five for you.`,
   ],
   Mami: [
     `I'm on my way! Save me a spot on your lap and a sweet or two.`,
@@ -276,6 +293,12 @@ const MESSAGES = {
     `I'm on my way! Masi says you're the fun one, so I'll be expecting lots of outings.`,
     `Guess who's going to be a Masa? You! Please start practising your best airplane rides.`,
     `A tiny new member is coming, and I'm told you tell the best jokes in the family.`,
+  ],
+  "Great Grand Nana": [
+    `Four generations! I'm on my way, and I can't wait to sit on the lap of the wisest person in the family. Please keep your blessings ready for me.`,
+  ],
+  "Great Grand Nani": [
+    `Four generations! I'm on my way, and I've heard your blessings are the most powerful in the family. Please keep one special one for me.`,
   ],
   Fai: [
     `I'm on my way! You get to pick my name, right? No pressure. 😄`,
@@ -328,7 +351,7 @@ $("nameForm").addEventListener("submit", e => {
   // If they typed "Sahil Kaka" or "Ramesh Mota Papa", pick up the relation from the end.
   const words = raw.split(" ");
   const squash = s => s.toLowerCase().replace(/\s+/g, "");
-  for (let k = Math.min(2, words.length - 1); k >= 1; k--) {
+  for (let k = Math.min(3, words.length - 1); k >= 1; k--) {
     const tail = squash(words.slice(-k).join(" "));
     const typedRel = RELATIONS.find(r => squash(r) === tail);
     if (typedRel) {
